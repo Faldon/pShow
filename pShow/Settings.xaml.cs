@@ -48,6 +48,11 @@ namespace pShow
             durationSetting.Text = App.slideDuration.ToString();
         }
 
+        /// <summary>
+        /// Save the parameters to the settings file.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void saveSettings(object sender, EventArgs e)
         {
             var durationLine = durationSetting.Text;
