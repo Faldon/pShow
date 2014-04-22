@@ -135,7 +135,7 @@
     <value>Parameter</value>
   </data>
   <data name="SettingsDisplayTimeText" xml:space="preserve">
-    <value>Bildanzeigedauer</value>
+    <value>Bildanzeigedauer:</value>
   </data>
   <data name="SaveSuccess" xml:space="preserve">
     <value>Die Einstellungen wurden gespeichert und angewandt.</value>
@@ -148,5 +148,8 @@
   </data>
   <data name="StartSlideShow" xml:space="preserve">
     <value>Diashow</value>
+  </data>
+  <data name="SettingsSortOrderText" xml:space="preserve">
+    <value>Bildanzeigesortierung:</value>
   </data>
 </root>

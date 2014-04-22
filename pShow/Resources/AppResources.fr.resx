@@ -135,7 +135,7 @@
     <value>Paramètres</value>
   </data>
   <data name="SettingsDisplayTimeText" xml:space="preserve">
-    <value>Affichage de la durée de la image</value>
+    <value>Affichage de la durée de la image:</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="feature_settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -158,5 +158,8 @@
   </data>
   <data name="StartSlideShow" xml:space="preserve">
     <value>Diaporama</value>
+  </data>
+  <data name="SettingsSortOrderText" xml:space="preserve">
+    <value>Ordre de tri des images:</value>
   </data>
 </root>
