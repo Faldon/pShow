@@ -162,4 +162,19 @@
   <data name="SettingsSortOrderText" xml:space="preserve">
     <value>Picture display in order:</value>
   </data>
+  <data name="SettingsDateAsc" xml:space="preserve">
+    <value>Date, ascending</value>
+  </data>
+  <data name="SettingsDateDsc" xml:space="preserve">
+    <value>Date, descending</value>
+  </data>
+  <data name="SettingsNameAsc" xml:space="preserve">
+    <value>Name, ascending</value>
+  </data>
+  <data name="SettingsNameDsc" xml:space="preserve">
+    <value>Name, descending</value>
+  </data>
+  <data name="SettingsRandom" xml:space="preserve">
+    <value>Random</value>
+  </data>
 </root>

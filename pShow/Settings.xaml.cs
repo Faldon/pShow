@@ -17,6 +17,15 @@ namespace pShow
     /// </summary>
     public partial class Settings : PhoneApplicationPage
     {
+        static private Dictionary<int, string> sortorderList = new Dictionary<int, string>() 
+        { 
+            {0, AppResources.SettingsDateAsc},
+            {1, AppResources.SettingsDateDsc},
+            {2, AppResources.SettingsNameAsc},
+            {3, AppResources.SettingsNameDsc},
+            {4, AppResources.SettingsRandom}
+        };
+
         /// <summary>
         /// The page constructor.
         /// </summary>
@@ -24,6 +33,7 @@ namespace pShow
         {
             InitializeComponent();
             BuildLocalizedApplicationBar();
+            sortorderPicker.ItemsSource = sortorderList.Values.ToList();
         }
 
         private void BuildLocalizedApplicationBar()
@@ -46,6 +56,7 @@ namespace pShow
         {
             base.OnNavigatedTo(e);
             durationSetting.Text = App.slideDuration.ToString();
+            sortorderPicker.SelectedIndex = App.sortOrder;
         }
 
         /// <summary>
@@ -60,8 +71,10 @@ namespace pShow
             {
                 System.IO.TextWriter tr = new System.IO.StreamWriter("Resources/settings.txt");
                 tr.WriteLineAsync("duration=" + durationLine);
+                tr.WriteLineAsync("sortorder=" + sortorderPicker.SelectedIndex.ToString());
                 tr.Close();
                 App.slideDuration = Int32.Parse(durationLine);
+                App.sortOrder = sortorderPicker.SelectedIndex;
                 MessageBox.Show(AppResources.SaveSuccess);
             }
             else

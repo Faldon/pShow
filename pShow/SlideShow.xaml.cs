@@ -55,7 +55,25 @@ namespace pShow
                 using (MediaLibrary mediaLib = new MediaLibrary())
                 {
                     albumPics = from p in mediaLib.Pictures where p.Album.Name.Equals(album) select p;
-                    albumPics.OrderBy(pic => pic.Date);
+                    switch (App.sortOrder)
+                    {
+                        case 0:
+                            albumPics = albumPics.OrderBy(pic => pic.Date);
+                            break;
+                        case 1:
+                            albumPics = albumPics.OrderByDescending(pic => pic.Date);
+                            break;
+                        case 2:
+                            albumPics = albumPics.OrderBy(pic => pic.Name);
+                            break;
+                        case 3:
+                            albumPics = albumPics.OrderByDescending(pic => pic.Name);
+                            break;
+                        case 4:
+                            albumPics = albumPics.OrderBy(pic => Guid.NewGuid());
+                            break;
+                    }
+                    
                     bmp.SetSource(albumPics.ElementAt(0).GetImage());
                     img.Source = bmp;
                     SlideShow.nextPicture = 1;

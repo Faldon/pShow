@@ -28,6 +28,11 @@ namespace pShow
         public static int slideDuration;
 
         /// <summary>
+        /// The set sort order for a picture slide.
+        /// </summary>
+        public static int sortOrder;
+
+        /// <summary>
         /// Constructor for the Application object.
         /// </summary>
         public App()
@@ -35,6 +40,8 @@ namespace pShow
             System.IO.TextReader tr = System.IO.File.OpenText("Resources/settings.txt");
             var durationLine = tr.ReadLine();
             App.slideDuration = Int32.Parse(durationLine.Split(new char[] { '=' })[1]);
+            var sortorderLine = tr.ReadLine();
+            App.sortOrder = Int32.Parse(sortorderLine.Split(new char[] { '=' })[1]);
             tr.Close();
 
             // Global handler for uncaught exceptions.

@@ -39,6 +39,7 @@
             <TextBlock Grid.Column="0" Text="{Binding Path=LocalizedResources.SettingsDisplayTimeText, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}" Name="durationLabel"  FontSize="20" VerticalAlignment="Center" Margin="0,0,0,0"/>
             <TextBox Grid.Column="1" Name="durationSetting" FontSize="20" Height="Auto"  Width="Auto" VerticalAlignment="Top" VerticalContentAlignment="Top" HorizontalAlignment="Left" />
             <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding Path=LocalizedResources.SettingsSortOrderText, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}" Name="sortorderLabel"  FontSize="20" VerticalAlignment="Top" Margin="0,10,0,0"/>
+            <ListBox Grid.Row="2" Grid.Column="1" Name="sortorderPicker" SelectionMode="Single" FontSize="20" VerticalAlignment="Top" Margin="0,10,0,0" />
         </Grid>
     </Grid>
 
