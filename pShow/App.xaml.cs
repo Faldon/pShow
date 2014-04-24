@@ -256,8 +256,8 @@ namespace pShow
             var colPos = parentElement.Children.Count % parentElement.ColumnDefinitions.Count;
             // Get the position of the row where the element has to be added
             var rowPos = parentElement.Children.Count / parentElement.ColumnDefinitions.Count;
-            // Add a row if necessara
-            if (rowPos > parentElement.RowDefinitions.Count)
+            // Add a row if necessary
+            if (rowPos >= parentElement.RowDefinitions.Count)
             {
                 RowDefinition row = new RowDefinition();
                 row.Height = GridLength.Auto;

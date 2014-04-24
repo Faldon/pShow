@@ -42,7 +42,7 @@ namespace pShow
         }
 
         /// <summary>
-        /// Loads the pictúres of this album if navigated to the page.
+        /// Loads the pictures of this album if navigated to the page.
         /// </summary>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {

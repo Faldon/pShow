@@ -31,11 +31,7 @@ namespace pShow
                 {
                     foreach (PictureAlbum album in mediaLib.RootPictureAlbum.Albums)
                     {
-                        if (album.Pictures.Count != 0)
-                        {
-                            StackPanel albumInfo = buildAlbumInformation(album);
-                            App.insertInGrid(ContentPanel, albumInfo);
-                        }
+                        traversePictureAlbum(album);
                     }
                 }
             }
@@ -57,11 +53,24 @@ namespace pShow
             ApplicationBar.Buttons.Add(settingsButton);
         }
 
+        private void traversePictureAlbum(PictureAlbum rootAlbum)
+        {
+            foreach (PictureAlbum childAlbum in rootAlbum.Albums)
+            {
+                traversePictureAlbum(childAlbum); 
+            }
+            if (rootAlbum.Pictures.Count != 0)
+            {
+                StackPanel albumInfo = buildAlbumInformation(rootAlbum);
+                App.insertInGrid(ContentPanel, albumInfo);
+            }
+        }
+
         /// <summary>
         /// Fill a UI element with picture album information.
         /// </summary>
         /// <param name="pAlbum">
-        /// A PictureAlbum element for the picture album to get information from.
+        /// A PictureAlbum element for the root picture album to get information from.
         /// </param>
         /// <returns>
         /// A StackPanel element where the information was added.
@@ -80,7 +89,6 @@ namespace pShow
             // Get album name
             TextBlock albumName = new TextBlock();
             albumName.Text = pAlbum.Name;
-            albumName.Tag = pAlbum.GetHashCode();
             albumName.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
 
             // Build button to navigate to desired album
