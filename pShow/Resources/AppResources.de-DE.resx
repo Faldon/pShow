@@ -167,4 +167,7 @@
   <data name="SettingsRandom" xml:space="preserve">
     <value>Zufällig</value>
   </data>
+  <data name="SettingsDisplayTimeUnitsText" xml:space="preserve">
+    <value>Sekunden</value>
+  </data>
 </root>

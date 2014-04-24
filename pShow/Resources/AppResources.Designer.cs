@@ -171,6 +171,15 @@ namespace pShow.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to seconds.
+        /// </summary>
+        public static string SettingsDisplayTimeUnitsText {
+            get {
+                return ResourceManager.GetString("SettingsDisplayTimeUnitsText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name, ascending.
         /// </summary>
         public static string SettingsNameAsc {
