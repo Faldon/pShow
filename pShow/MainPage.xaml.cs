@@ -53,6 +53,12 @@ namespace pShow
             ApplicationBar.Buttons.Add(settingsButton);
         }
 
+        /// <summary>
+        /// Traverse all child picture album to get a preview picture from all albums containing images.
+        /// </summary>
+        /// <param name="rootAlbum">
+        /// The root picture album from where to start.
+        /// </param>
         private void traversePictureAlbum(PictureAlbum rootAlbum)
         {
             foreach (PictureAlbum childAlbum in rootAlbum.Albums)
@@ -70,7 +76,7 @@ namespace pShow
         /// Fill a UI element with picture album information.
         /// </summary>
         /// <param name="pAlbum">
-        /// A PictureAlbum element for the root picture album to get information from.
+        /// A PictureAlbum element for the picture album to get information from.
         /// </param>
         /// <returns>
         /// A StackPanel element where the information was added.
@@ -82,6 +88,7 @@ namespace pShow
             // Get first picture from album as album preview
             Image albumImage = new Image();
             BitmapImage albumPic = new BitmapImage();
+            albumPic.CreateOptions = BitmapCreateOptions.BackgroundCreation;
             albumPic.SetSource(pAlbum.Pictures[0].GetThumbnail());
             albumImage.Source = albumPic;
             albumImage.Stretch = System.Windows.Media.Stretch.UniformToFill;

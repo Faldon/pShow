@@ -133,13 +133,5 @@ namespace pShow
             PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Enabled;
             base.OnBackKeyPress(e);
         }
-
-        /// <summary>
-        /// Change phone orientation.
-        /// </summary>
-        protected override void OnOrientationChanged(OrientationChangedEventArgs e)
-        {
-            base.OnOrientationChanged(e);
-        }
     }
 }

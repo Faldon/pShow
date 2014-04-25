@@ -78,6 +78,7 @@ namespace pShow
             i.Source = bi;
             i.Stretch = System.Windows.Media.Stretch.UniformToFill;
             i.Margin = new System.Windows.Thickness(10);
+            pic.Dispose();
 
             return i;
         }
