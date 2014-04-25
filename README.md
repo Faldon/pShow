@@ -23,5 +23,5 @@ Current features are:
 </ul>
 </p>
 <p>
-Licensing information will follow.
+Licensed under MIT License (see License.md)
 </p>
