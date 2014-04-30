@@ -164,6 +164,14 @@
     <None Include="pShow-image002.png" />
     <None Include="pShow-image003.png" />
     <None Include="pShow-image004.png" />
+    <None Include="pShow-image001_de-DE.png" />
+    <None Include="pShow-image001_fr.png" />
+    <None Include="pShow-image002_de-DE.png" />
+    <None Include="pShow-image002_fr.png" />
+    <None Include="pShow-image003_de-DE.png" />
+    <None Include="pShow-image003_fr.png" />
+    <None Include="pShow-image005.png" />
+    <None Include="pShowStoreIcon.png" />
     <Content Include="Resources\feature.settings.png" />
     <Content Include="Resources\save.png" />
     <Content Include="Resources\settings.txt" />
