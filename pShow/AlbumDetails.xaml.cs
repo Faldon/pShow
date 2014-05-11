@@ -47,40 +47,25 @@ namespace pShow
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            ContentPanel.Children.Clear();
             string albumChoice = "";
 
             if (NavigationContext.QueryString.TryGetValue("albumChoice", out albumChoice))
             {
+                List<BitmapImage> pictureList = new List<BitmapImage>();
                 albumName.Text = albumChoice;
                 using (MediaLibrary mediaLib = new MediaLibrary())
                 {
                     var albumPics = from p in mediaLib.Pictures where p.Album.Name.Equals(albumChoice) select p;
                     foreach (Picture p in albumPics)
                     {
-                        App.insertInGrid(ContentPanel, getThumbImage(p));
+                        BitmapImage bmp = new BitmapImage();
+                        bmp.CreateOptions = BitmapCreateOptions.BackgroundCreation;
+                        bmp.SetSource(p.GetThumbnail());
+                        pictureList.Add(bmp);
                     }
                 }
+                AlbumDetailsView.ItemsSource = pictureList;
             }
-        }
-
-        /// <summary>
-        /// Get the thumbnail image stream from a media lib picture.
-        /// </summary>
-        /// <param name="pic">
-        /// A picture from the media lib.
-        /// </param>
-        private Image getThumbImage(Picture pic)
-        {
-            Image i = new Image();
-            BitmapImage bi = new BitmapImage();
-            bi.SetSource(pic.GetThumbnail());
-            i.Source = bi;
-            i.Stretch = System.Windows.Media.Stretch.UniformToFill;
-            i.Margin = new System.Windows.Thickness(10);
-            pic.Dispose();
-
-            return i;
         }
 
         /// <summary>
