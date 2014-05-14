@@ -9,6 +9,8 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Microsoft.Xna.Framework.Media;
 using System.Windows.Media.Imaging;
+using System.ComponentModel;
+using System.Collections.ObjectModel;
 using pShow.Resources;
 
 namespace pShow
@@ -18,13 +20,24 @@ namespace pShow
     /// </summary>
     public partial class AlbumDetails : PhoneApplicationPage
     {
+        private ObservableCollection<BitmapImage> pictureList;
+        private BackgroundWorker workerThread = new BackgroundWorker();
+
         /// <summary>
         /// The page constructor.
         /// </summary>
         public AlbumDetails()
         {
+            pictureList = new ObservableCollection<BitmapImage>();
+            
+            workerThread.DoWork += loadPictures;
+            workerThread.RunWorkerCompleted += generateBitmaps;
+            workerThread.WorkerSupportsCancellation = true;
+
             InitializeComponent();
             BuildLocalizedApplicationBar();
+            AlbumDetailsView.ItemsSource = pictureList;
+            
         }
 
         /// <summary>
@@ -42,7 +55,7 @@ namespace pShow
         }
 
         /// <summary>
-        /// Loads the pictures of this album if navigated to the page.
+        /// Starts loading the pictures of the selected album if navigated to the page.
         /// </summary>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -51,21 +64,19 @@ namespace pShow
 
             if (NavigationContext.QueryString.TryGetValue("albumChoice", out albumChoice))
             {
-                List<BitmapImage> pictureList = new List<BitmapImage>();
+                pictureList.Clear();
                 albumName.Text = albumChoice;
-                using (MediaLibrary mediaLib = new MediaLibrary())
-                {
-                    var albumPics = from p in mediaLib.Pictures where p.Album.Name.Equals(albumChoice) select p;
-                    foreach (Picture p in albumPics)
-                    {
-                        BitmapImage bmp = new BitmapImage();
-                        bmp.CreateOptions = BitmapCreateOptions.BackgroundCreation;
-                        bmp.SetSource(p.GetThumbnail());
-                        pictureList.Add(bmp);
-                    }
-                }
-                AlbumDetailsView.ItemsSource = pictureList;
+                workerThread.RunWorkerAsync(albumChoice);
             }
+        }
+
+        /// <summary>
+        /// Cancel the slide show thread and navigate back.
+        /// </summary>
+        protected override void OnBackKeyPress(CancelEventArgs e)
+        {
+            workerThread.CancelAsync();
+            base.OnBackKeyPress(e);
         }
 
         /// <summary>
@@ -75,6 +86,46 @@ namespace pShow
         {
             NavigationService.Navigate(new Uri("/SlideShow.xaml?album=" + albumName.Text, UriKind.Relative));
         }
-    }
 
+        /// <summary>
+        /// Loads the pictures of the given picture album in the background.
+        /// </summary>
+        /// <param name="sender">The sender starting the async process</param>
+        /// <param name="e">The name of the album the pictures are loaded from</param>
+        private void loadPictures(object sender, DoWorkEventArgs e)
+        {       
+            var albumChoice = (string)e.Argument;
+            var pictureStreams = new List<System.IO.Stream>();
+            using (MediaLibrary mediaLib = new MediaLibrary())
+            {
+                var albumPics = from p in mediaLib.Pictures where p.Album.Name.Equals(albumChoice) select p;
+                foreach (Picture p in albumPics)
+                {
+                    if (workerThread.CancellationPending)
+                    {
+                        e.Cancel = true;
+                    }
+                    pictureStreams.Add(p.GetThumbnail());
+                }
+            }
+            e.Result = pictureStreams;
+        }
+
+        /// <summary>
+        /// Updates the UI thread with the currently loaded picture.
+        /// </summary>
+        /// <param name="sender">The background worker raising the event</param>
+        /// <param name="e">A Picture from the MediaLibrary</param>
+        private void generateBitmaps(object sender, RunWorkerCompletedEventArgs e)
+        {
+            var pictureStreams = (List<System.IO.Stream>)e.Result;
+            foreach (System.IO.Stream pictureStream in pictureStreams)
+            {
+                BitmapImage bmp = new BitmapImage();
+                bmp.CreateOptions = BitmapCreateOptions.DelayCreation;
+                bmp.SetSource(pictureStream);
+                pictureList.Add(bmp);
+            }
+        }
+    }
 }

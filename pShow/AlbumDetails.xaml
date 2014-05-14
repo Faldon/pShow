@@ -13,9 +13,13 @@
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True">
     
+    <shell:SystemTray.ProgressIndicator>
+        <shell:ProgressIndicator IsIndeterminate="True" IsVisible="True" />
+    </shell:SystemTray.ProgressIndicator>
+
     <phone:PhoneApplicationPage.Resources>
         <DataTemplate x:Key="ItemTemplate">
-            <Image Width="75" Height="75" Stretch="UniformToFill" Source="{Binding}" />
+            <Image Width="100" Height="100" Stretch="UniformToFill" Source="{Binding}" />
         </DataTemplate>
     </phone:PhoneApplicationPage.Resources>
     
@@ -42,7 +46,7 @@
                                     IsGroupingEnabled="False"
                                     ItemTemplate="{StaticResource ItemTemplate}"
                                     LayoutMode="Grid" 
-                                    GridCellSize="85,85"/>
+                                    GridCellSize="108,108" />
         </ScrollViewer>
     </Grid>
 </phone:PhoneApplicationPage>
