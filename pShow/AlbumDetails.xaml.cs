@@ -22,6 +22,7 @@ namespace pShow
     {
         private ObservableCollection<BitmapImage> pictureList;
         private BackgroundWorker workerThread = new BackgroundWorker();
+        private bool isWorking;
 
         /// <summary>
         /// The page constructor.
@@ -29,6 +30,7 @@ namespace pShow
         public AlbumDetails()
         {
             pictureList = new ObservableCollection<BitmapImage>();
+            isWorking = true;
             
             workerThread.DoWork += loadPictures;
             workerThread.RunWorkerCompleted += generateBitmaps;
@@ -60,6 +62,7 @@ namespace pShow
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            isWorking = true;
             string albumChoice = "";
 
             if (NavigationContext.QueryString.TryGetValue("albumChoice", out albumChoice))
@@ -76,6 +79,7 @@ namespace pShow
         protected override void OnBackKeyPress(CancelEventArgs e)
         {
             workerThread.CancelAsync();
+            isWorking = false;
             base.OnBackKeyPress(e);
         }
 
@@ -84,6 +88,7 @@ namespace pShow
         /// </summary>
         private void startSlideShow(object sender, EventArgs e)
         {
+            isWorking = false;
             NavigationService.Navigate(new Uri("/SlideShow.xaml?album=" + albumName.Text, UriKind.Relative));
         }
 
@@ -126,6 +131,7 @@ namespace pShow
                 bmp.SetSource(pictureStream);
                 pictureList.Add(bmp);
             }
+            isWorking = false;
         }
     }
 }
