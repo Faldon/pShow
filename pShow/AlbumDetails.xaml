@@ -14,7 +14,7 @@
     shell:SystemTray.IsVisible="True">
     
     <shell:SystemTray.ProgressIndicator>
-        <shell:ProgressIndicator IsIndeterminate="{Binding isWorking}" IsVisible="True" />
+        <shell:ProgressIndicator x:Name="progress" IsVisible="True" />
     </shell:SystemTray.ProgressIndicator>
 
     <phone:PhoneApplicationPage.Resources>
