@@ -9,6 +9,9 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Microsoft.Xna.Framework.Media;
 using System.Windows.Media.Imaging;
+using System.ComponentModel;
+using System.Collections.ObjectModel;
+using pShow.Model;
 using pShow.Resources;
 
 namespace pShow
@@ -18,24 +21,28 @@ namespace pShow
     /// </summary>
     public partial class MainPage : PhoneApplicationPage
     {
+        private ObservableCollection<AlbumPreview> albumList;
+        private BackgroundWorker workerThread;
+
         /// <summary>
         /// The page constructor.
         /// </summary>
         public MainPage()
         {
-            InitializeComponent();
-            ContentPanel.Children.Clear();
-            foreach (MediaSource source in MediaSource.GetAvailableMediaSources()) {
+            albumList = new ObservableCollection<AlbumPreview>();
 
-                using (MediaLibrary mediaLib = new MediaLibrary(source))
-                {
-                    foreach (PictureAlbum album in mediaLib.RootPictureAlbum.Albums)
-                    {
-                        traversePictureAlbum(album);
-                    }
-                }
-            }
+            workerThread = new BackgroundWorker();
+            workerThread.DoWork += getAllAlbums;
+            workerThread.RunWorkerCompleted += updateUI;
+            workerThread.WorkerSupportsCancellation = true;  
+            progress = new ProgressIndicator();
+            
+            InitializeComponent();
             BuildLocalizedApplicationBar();
+
+            AlbumsView.ItemsSource = albumList;
+            progress.IsIndeterminate = true;
+            workerThread.RunWorkerAsync();
         }
 
         /// <summary>
@@ -54,79 +61,92 @@ namespace pShow
         }
 
         /// <summary>
-        /// Traverse all child picture album to get a preview picture from all albums containing images.
+        /// Get a list of PictureAlbum containing all albums available from the media library.
         /// </summary>
-        /// <param name="rootAlbum">
-        /// The root picture album from where to start.
-        /// </param>
-        private void traversePictureAlbum(PictureAlbum rootAlbum)
+        /// <param name="sender">The sender of the event</param>
+        /// <param name="e">Events for the background thread</param>
+        private void getAllAlbums(object sender, DoWorkEventArgs e)
         {
-            foreach (PictureAlbum childAlbum in rootAlbum.Albums)
+            var allAlbums = new List<PictureAlbum>();
+            using (MediaLibrary mediaLib = new MediaLibrary())
             {
-                traversePictureAlbum(childAlbum); 
+                foreach (PictureAlbum album in mediaLib.RootPictureAlbum.Albums)
+                {
+                    allAlbums.Add(album);
+                }
+                for (var i = 0; i < allAlbums.Count; i++)
+                {
+                    if (workerThread.CancellationPending)
+                    {
+                        e.Cancel = true;
+                    }
+                    foreach (PictureAlbum album in allAlbums[i].Albums)
+                    {
+                        allAlbums.Add(album);
+                    }
+                }
             }
-            if (rootAlbum.Pictures.Count != 0)
-            {
-                StackPanel albumInfo = buildAlbumInformation(rootAlbum);
-                App.insertInGrid(ContentPanel, albumInfo);
-            }
+            e.Result = allAlbums.OrderBy(i => i.Name).ToList<PictureAlbum>();
         }
 
         /// <summary>
-        /// Fill a UI element with picture album information.
+        /// Update the UI with the preview pictures and album titles for each album.
         /// </summary>
-        /// <param name="pAlbum">
-        /// A PictureAlbum element for the picture album to get information from.
-        /// </param>
-        /// <returns>
-        /// A StackPanel element where the information was added.
-        /// </returns>
-        private StackPanel buildAlbumInformation(PictureAlbum pAlbum)
+        /// <param name="sender">The sender of the event</param>
+        /// <param name="e">Events for the completion of the background thread, with a list of PictureAlbum as Result property</param>
+        private void updateUI(object sender, RunWorkerCompletedEventArgs e)
         {
-            StackPanel infoPanel = new StackPanel();
-            infoPanel.Margin = new System.Windows.Thickness(5);
-            // Get first picture from album as album preview
-            Image albumImage = new Image();
-            BitmapImage albumPic = new BitmapImage();
-            albumPic.CreateOptions = BitmapCreateOptions.BackgroundCreation;
-            albumPic.SetSource(pAlbum.Pictures[0].GetThumbnail());
-            albumImage.Source = albumPic;
-            albumImage.Stretch = System.Windows.Media.Stretch.UniformToFill;
+            var allAlbums = (List<PictureAlbum>)e.Result;
+            foreach (PictureAlbum album in allAlbums)
+            {
+                if (album.Pictures.Count > 0)
+                {
+                    AlbumPreview aPreview = new AlbumPreview();
+                    aPreview.title = album.Name;
 
-            // Get album name
-            TextBlock albumName = new TextBlock();
-            albumName.Text = pAlbum.Name;
-            albumName.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
-
-            // Build button to navigate to desired album
-            Button albumButton = new Button();
-            albumButton.BorderThickness = new Thickness(0);
-            albumButton.Content = albumImage;
-            albumButton.Tag = pAlbum.Name;
-            albumButton.Click += openAlbum;
-                        
-            // Add picture and album name to panel
-            infoPanel.Children.Add(albumButton);
-            infoPanel.Children.Add(albumName);
-            
-            return infoPanel;
+                    BitmapImage albumPic = new BitmapImage();
+                    albumPic.CreateOptions = BitmapCreateOptions.DelayCreation;
+                    albumPic.DecodePixelHeight = 180;
+                    albumPic.SetSource(album.Pictures[0].GetThumbnail());
+                    aPreview.preview = albumPic;
+                    
+                    albumList.Add(aPreview);
+                    System.GC.Collect();
+                }
+            }
+            progress.IsIndeterminate = false;
         }
 
         /// <summary>
         /// Navigate to the album details page for the chosen album.
         /// </summary>
+        /// <param name="sender">The sender of the event</param>
+        /// <param name="e">Additional arguments from the event</param>
         private void openAlbum(object sender, RoutedEventArgs e)
         {
             Button b = (Button)sender;
+            workerThread.CancelAsync();
             NavigationService.Navigate(new Uri("/AlbumDetails.xaml?albumChoice=" + b.Tag.ToString(), UriKind.Relative));
         }
 
         /// <summary>
         /// Navigate to the settings page.
         /// </summary>
+        /// <param name="sender">The sender of the event</param>
+        /// <param name="e">Additional arguments from the event</param>
         private void openSettings(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/Settings.xaml", UriKind.Relative));
+        }
+
+        /// <summary>
+        /// Cancel BackgroundWorker and perform default action.
+        /// </summary>
+        /// <param name="e">Additional arguments from the event</param>
+        protected override void OnBackKeyPress(CancelEventArgs e)
+        {
+            workerThread.CancelAsync();
+            base.OnBackKeyPress(e);
         }
     }
 }
