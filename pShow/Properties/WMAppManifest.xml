@@ -6,7 +6,7 @@
     <Language code="de-DE" />
     <Language code="fr" />
   </Languages>
-  <App xmlns="" ProductID="{8f5f2132-0e13-46c5-b2a4-f9885ff9d2d7}" Title="pShow" RuntimeType="Silverlight" Version="1.1.0.0" Genre="apps.normal" Author="Thomas Pulzer" Description="A simple slide show application. Browse your picture albums and select one for displaying a slide show." Publisher="pWare" PublisherID="{c9d64cc3-aa35-4885-96f3-79391fc06202}">
+  <App xmlns="" ProductID="{8f5f2132-0e13-46c5-b2a4-f9885ff9d2d7}" Title="pShow" RuntimeType="Silverlight" Version="1.2.0.0" Genre="apps.normal" Author="Thomas Pulzer" Description="A simple slide show application. Browse your picture albums and select one for displaying a slide show." Publisher="pWare" PublisherID="{c9d64cc3-aa35-4885-96f3-79391fc06202}">
     <IconPath IsRelative="true" IsResource="false">Assets\pShowAppIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_SENSORS" />
