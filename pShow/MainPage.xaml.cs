@@ -111,7 +111,6 @@ namespace pShow
                     aPreview.preview = albumPic;
                     
                     albumList.Add(aPreview);
-                    System.GC.Collect();
                 }
             }
             progress.IsIndeterminate = false;

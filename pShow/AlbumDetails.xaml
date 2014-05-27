@@ -14,7 +14,7 @@
     shell:SystemTray.IsVisible="True">
     
     <shell:SystemTray.ProgressIndicator>
-        <shell:ProgressIndicator x:Name="progress" IsVisible="True" />
+        <shell:ProgressIndicator x:Name="progress" IsIndeterminate="{Binding isLoading}" IsVisible="True" />
     </shell:SystemTray.ProgressIndicator>
 
     <phone:PhoneApplicationPage.Resources>
@@ -33,7 +33,7 @@
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
             <TextBlock Name="albumName" 
-                       Text="" 
+                       Text="{Binding albumName}" 
                        Style="{StaticResource PhoneTextTitle2Style}" />
         </StackPanel>
 
@@ -45,6 +45,7 @@
             <phone:LongListSelector Name="AlbumDetailsView"
                                     IsGroupingEnabled="False"
                                     ItemTemplate="{StaticResource ItemTemplate}"
+                                    ItemsSource="{Binding albumPictures}"
                                     LayoutMode="Grid" 
                                     GridCellSize="108,108" />
         </ScrollViewer>
