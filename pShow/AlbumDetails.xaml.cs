@@ -45,8 +45,10 @@ namespace pShow
         }
 
         /// <summary>
-        /// Starts loading the pictures of the selected album if navigated to the page.
+        /// Gets the selected album and create a new AlbumViewModel from the chosen album.
+        /// Sets the AlbumViewModel as DataContext for the cuurent page.
         /// </summary>
+        /// <param name="e">The NavigationEventArgs</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);

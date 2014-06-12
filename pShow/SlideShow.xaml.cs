@@ -31,13 +31,14 @@ namespace pShow
         public SlideShow()
         {
             InitializeComponent();
-            PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             slideShowThread.DoWork += loadNextPicture;
             slideShowThread.RunWorkerCompleted += updateUI;
             slideShowThread.WorkerSupportsCancellation = true;
             img = new Image();
-            bmp = new BitmapImage();
-            bmp.CreateOptions = BitmapCreateOptions.BackgroundCreation;
+            bmp = new BitmapImage()
+            {
+                CreateOptions = BitmapCreateOptions.BackgroundCreation
+            };
             ContentPanel.Children.Add(img);
         }
 
@@ -47,7 +48,7 @@ namespace pShow
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-
+            PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             string album = "";
 
             if (NavigationContext.QueryString.TryGetValue("album", out album))
@@ -73,7 +74,6 @@ namespace pShow
                             albumPics = albumPics.OrderBy(pic => Guid.NewGuid());
                             break;
                     }
-                    
                     bmp.SetSource(albumPics.ElementAt(0).GetImage());
                     img.Source = bmp;
                     SlideShow.nextPicture = 1;
@@ -101,7 +101,7 @@ namespace pShow
             }
             if (!slideShowThread.CancellationPending)
             {
-                System.Threading.Thread.Sleep(App.slideDuration * 1000);
+                //System.Threading.Thread.Sleep(App.slideDuration * 1000);
                 e.Result = nextPicture;
             }
             else

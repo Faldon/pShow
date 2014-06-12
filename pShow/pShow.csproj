@@ -114,6 +114,7 @@
       <DependentUpon>SlideShow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\AlbumViewModel.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
