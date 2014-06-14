@@ -51,7 +51,8 @@
                                     IsGroupingEnabled="False"
                                     ItemTemplate="{StaticResource ItemTemplate}"
                                     ItemsSource="{Binding albumPreviews}"
-                                    LayoutMode="Grid" 
+                                    LayoutMode="Grid"
+                                    VirtualizingStackPanel.VirtualizationMode="Recycling"
                                     GridCellSize="210,210" />
         </ScrollViewer>
     </Grid>

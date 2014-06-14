@@ -21,7 +21,10 @@
         </Grid.RowDefinitions>
 
         <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0,0,0,0">
+        <Grid x:Name="ContentPanel" 
+              Grid.Row="1" 
+              Margin="0,0,0,0"
+              VirtualizingStackPanel.VirtualizationMode="Recycling">
 
         </Grid>
     </Grid>

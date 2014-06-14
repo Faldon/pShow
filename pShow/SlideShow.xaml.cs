@@ -21,6 +21,7 @@ namespace pShow
     {
         private readonly BackgroundWorker slideShowThread = new BackgroundWorker();
         private static int nextPicture;
+        private static int pictureCount;
         private IEnumerable<Picture> albumPics;
         Image img;
         BitmapImage bmp;
@@ -35,11 +36,17 @@ namespace pShow
             slideShowThread.RunWorkerCompleted += updateUI;
             slideShowThread.WorkerSupportsCancellation = true;
             img = new Image();
+            img.LayoutUpdated += startImageLoading;
             bmp = new BitmapImage()
             {
                 CreateOptions = BitmapCreateOptions.BackgroundCreation
             };
             ContentPanel.Children.Add(img);
+        }
+
+        void startImageLoading(object sender, EventArgs e)
+        {
+            slideShowThread.RunWorkerAsync(albumPics);
         }
 
         /// <summary>
@@ -77,7 +84,7 @@ namespace pShow
                     bmp.SetSource(albumPics.ElementAt(0).GetImage());
                     img.Source = bmp;
                     SlideShow.nextPicture = 1;
-                    slideShowThread.RunWorkerAsync(albumPics);
+                    SlideShow.pictureCount = albumPics.Count();
                 }
             }
         }
@@ -87,9 +94,10 @@ namespace pShow
         /// </summary>
         private void loadNextPicture(object sender, DoWorkEventArgs e)
         {
+            var start = System.DateTime.Now;
             var albumPics = (IEnumerable<Picture>) e.Argument;
             System.IO.Stream nextPicture;
-            if (albumPics.Count() > SlideShow.nextPicture)
+            if (SlideShow.pictureCount > SlideShow.nextPicture)
             {
                 nextPicture = albumPics.ElementAt(SlideShow.nextPicture).GetImage();
                 SlideShow.nextPicture++;
@@ -101,7 +109,9 @@ namespace pShow
             }
             if (!slideShowThread.CancellationPending)
             {
-                //System.Threading.Thread.Sleep(App.slideDuration * 1000);
+                var end = System.DateTime.Now;
+                var duration = end - start;
+                System.Threading.Thread.Sleep((App.slideDuration - duration.Seconds) * 1000);
                 e.Result = nextPicture;
             }
             else
@@ -119,7 +129,6 @@ namespace pShow
             {
                 var nextPicture = (System.IO.Stream)e.Result;
                 bmp.SetSource(nextPicture);
-                slideShowThread.RunWorkerAsync(albumPics);
             }
             
         }
