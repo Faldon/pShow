@@ -55,8 +55,8 @@ namespace pShow
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            durationSetting.Text = App.slideDuration.ToString();
-            sortorderPicker.SelectedIndex = App.sortOrder;
+            durationSetting.Text = App.userSettings["slideDuration"].ToString();
+            sortorderPicker.SelectedIndex = (int)App.userSettings["sortOrder"];
         }
 
         /// <summary>
@@ -69,12 +69,8 @@ namespace pShow
             var durationLine = durationSetting.Text;
             if (Regex.IsMatch(durationLine, @"^[0-9]+$"))
             {
-                System.IO.TextWriter tr = new System.IO.StreamWriter("Resources/settings.txt");
-                tr.WriteLineAsync("duration=" + durationLine);
-                tr.WriteLineAsync("sortorder=" + sortorderPicker.SelectedIndex.ToString());
-                tr.Close();
-                App.slideDuration = Int32.Parse(durationLine);
-                App.sortOrder = sortorderPicker.SelectedIndex;
+                App.userSettings["slideDuration"] = Int32.Parse(durationLine);
+                App.userSettings["sortOrder"] = sortorderPicker.SelectedIndex;
                 MessageBox.Show(AppResources.SaveSuccess);
             }
             else
