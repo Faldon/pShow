@@ -31,26 +31,35 @@ namespace pShow
         /// </summary>
         public SlideShow()
         {
-            InitializeComponent();
+            SlideShow.nextPicture = 0;
             slideShowThread.DoWork += loadNextPicture;
             slideShowThread.RunWorkerCompleted += updateUI;
             slideShowThread.WorkerSupportsCancellation = true;
+            InitializeComponent();
+            
             img = new Image();
-            img.LayoutUpdated += startImageLoading;
             bmp = new BitmapImage()
             {
-                CreateOptions = BitmapCreateOptions.BackgroundCreation
+                CreateOptions = BitmapCreateOptions.IgnoreImageCache,
             };
+            img.Source = bmp;
+            img.LayoutUpdated += startImageLoading;
             ContentPanel.Children.Add(img);
         }
 
-        void startImageLoading(object sender, EventArgs e)
+        /// <summary>
+        /// Start the image loading BackgroundWorker.
+        /// This event is raised on Image.LayoutUpdated.
+        /// </summary>
+        /// <param name="sender">The image that was updated</param>
+        /// <param name="e">The event arguments</param>
+        public void startImageLoading(object sender, EventArgs e)
         {
-            slideShowThread.RunWorkerAsync(albumPics);
+            slideShowThread.RunWorkerAsync(albumPics);            
         }
 
         /// <summary>
-        /// Select all pictures for this album and start the slide show thread.
+        /// Select all pictures for this album and sort them by selected sort order.
         /// </summary>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -63,7 +72,7 @@ namespace pShow
                 using (MediaLibrary mediaLib = new MediaLibrary())
                 {
                     albumPics = from p in mediaLib.Pictures where p.Album.Name.Equals(album) select p;
-                    switch (App.sortOrder)
+                    switch ((int)App.userSettings["sortOrder"])
                     {
                         case 0:
                             albumPics = albumPics.OrderBy(pic => pic.Date);
@@ -81,9 +90,6 @@ namespace pShow
                             albumPics = albumPics.OrderBy(pic => Guid.NewGuid());
                             break;
                     }
-                    bmp.SetSource(albumPics.ElementAt(0).GetImage());
-                    img.Source = bmp;
-                    SlideShow.nextPicture = 1;
                     SlideShow.pictureCount = albumPics.Count();
                 }
             }
@@ -97,27 +103,45 @@ namespace pShow
             var start = System.DateTime.Now;
             var albumPics = (IEnumerable<Picture>) e.Argument;
             System.IO.Stream nextPicture;
-            if (SlideShow.pictureCount > SlideShow.nextPicture)
+            
+            if (SlideShow.nextPicture == 0)
             {
+                // page was currently opened - skip the sleeping period
                 nextPicture = albumPics.ElementAt(SlideShow.nextPicture).GetImage();
                 SlideShow.nextPicture++;
             }
             else
             {
-                nextPicture = albumPics.ElementAt(0).GetImage();
-                SlideShow.nextPicture = 1;
-            }
-            if (!slideShowThread.CancellationPending)
-            {
+                if (SlideShow.pictureCount > SlideShow.nextPicture)
+                {
+                    // Increment the next picture
+                    nextPicture = albumPics.ElementAt(SlideShow.nextPicture).GetImage();
+                    SlideShow.nextPicture++;
+                }
+                else
+                {
+                    // load the picture with index 0 and set next picture to 1
+                    nextPicture = albumPics.ElementAt(0).GetImage();
+                    SlideShow.nextPicture = 1;
+                }
                 var end = System.DateTime.Now;
-                var duration = end - start;
-                System.Threading.Thread.Sleep((App.slideDuration - duration.Seconds) * 1000);
-                e.Result = nextPicture;
+
+                // wait until the desired slide show duration is reached
+                while ((end - start).Seconds < (int)App.userSettings["slideDuration"])
+                {
+                    if (!slideShowThread.CancellationPending)
+                    {
+                        System.Threading.Thread.Sleep(100);
+                        end = end.AddMilliseconds(100);
+                    }
+                    else
+                    {
+                        e.Cancel = true;
+                        end = end.AddSeconds((int)App.userSettings["slideDuration"]);
+                    }
+                }
             }
-            else
-            {
-                e.Cancel = true;
-            }
+            e.Result = nextPicture;
         }
 
         /// <summary>
@@ -132,13 +156,21 @@ namespace pShow
             }
             
         }
-
+        
         /// <summary>
         /// Cancel the slide show thread and navigate back.
         /// </summary>
         protected override void OnBackKeyPress(CancelEventArgs e)
         {
-            slideShowThread.CancelAsync();
+            img.LayoutUpdated -= startImageLoading;
+            try
+            {
+                slideShowThread.CancelAsync();
+            }
+            catch
+            {
+
+            }
             PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Enabled;
             base.OnBackKeyPress(e);
         }
