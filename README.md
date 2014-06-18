@@ -9,7 +9,7 @@ Unsatisfied with the available slideshow apps for WP8, I decided to write my own
 <p>
 Overview:
 <br />
-Displays the album name and a preview image for every picture album accessible through the media library in a 3 column, scrollable grid. Opening the desired album with a short click on it gives a preview of all images in the album. In this detail view, one can start the slideshow with a play-like button in the application bar.
+Displays the album name and a preview image for every picture album accessible through the media library in a 2-3 column wide, scrollable grid using a LongListSelector. Opening the desired album with a short click on it gives a preview of all images in the album. In this detail view, one can start the slideshow with a play button in the application bar.
 On the album overview page, one can access the settings through the application bar, where several parameters could be set.
 </p>
 <p>
