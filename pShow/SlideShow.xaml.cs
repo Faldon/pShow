@@ -36,8 +36,11 @@ namespace pShow
             slideShowThread.RunWorkerCompleted += updateUI;
             slideShowThread.WorkerSupportsCancellation = true;
             InitializeComponent();
-            
-            img = new Image();
+
+            img = new Image()
+            {
+                Name="Image",
+            };
             bmp = new BitmapImage()
             {
                 CreateOptions = BitmapCreateOptions.IgnoreImageCache,
