@@ -55,7 +55,10 @@ namespace pShow
         /// <param name="e">The event arguments</param>
         public void startImageLoading(object sender, EventArgs e)
         {
-            slideShowThread.RunWorkerAsync(albumPics);            
+            if (!slideShowThread.IsBusy)
+            {
+                slideShowThread.RunWorkerAsync(albumPics);
+            }
         }
 
         /// <summary>
