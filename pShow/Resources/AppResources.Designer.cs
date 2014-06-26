@@ -144,6 +144,33 @@ namespace pShow.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fading.
+        /// </summary>
+        public static string SettingsBlendModeFading {
+            get {
+                return ResourceManager.GetString("SettingsBlendModeFading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        public static string SettingsBlendModeNone {
+            get {
+                return ResourceManager.GetString("SettingsBlendModeNone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Picture transition mode:.
+        /// </summary>
+        public static string SettingsBlendModeText {
+            get {
+                return ResourceManager.GetString("SettingsBlendModeText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date, ascending.
         /// </summary>
         public static string SettingsDateAsc {

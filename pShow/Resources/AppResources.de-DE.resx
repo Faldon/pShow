@@ -170,4 +170,13 @@
   <data name="SettingsDisplayTimeUnitsText" xml:space="preserve">
     <value>Sekunden</value>
   </data>
+  <data name="SettingsBlendModeFading" xml:space="preserve">
+    <value>Überblenden</value>
+  </data>
+  <data name="SettingsBlendModeNone" xml:space="preserve">
+    <value>Keiner</value>
+  </data>
+  <data name="SettingsBlendModeText" xml:space="preserve">
+    <value>Bildübergangsmodus:</value>
+  </data>
 </root>

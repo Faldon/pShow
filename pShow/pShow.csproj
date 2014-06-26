@@ -177,7 +177,6 @@
     <None Include="pShowStoreIcon.png" />
     <Content Include="Resources\feature.settings.png" />
     <Content Include="Resources\save.png" />
-    <Content Include="Resources\settings.txt" />
     <Content Include="Resources\transport.play.png" />
   </ItemGroup>
   <ItemGroup>

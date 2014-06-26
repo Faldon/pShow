@@ -26,8 +26,9 @@
             <TextBlock Text="{Binding Path=LocalizedResources.SettingsTitle, Source={StaticResource LocalizedStrings}}" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
-        <!--ContentPanel - place additional content here-->
-        <Grid x:Name="DurationSetting" Margin="14,151,10,45" Grid.RowSpan="1">
+        <!--ContentPanel-->
+        <StackPanel>
+        <Grid x:Name="DurationSetting" Margin="14,151,10,0" Grid.RowSpan="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
@@ -40,7 +41,7 @@
             <TextBox Grid.Column="1" Name="durationSetting" FontSize="20" Height="Auto"  Width="Auto" VerticalAlignment="Top" VerticalContentAlignment="Top" HorizontalAlignment="Left" />
             <TextBlock Grid.Column="3" Text="{Binding Path=LocalizedResources.SettingsDisplayTimeUnitsText, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}" Name="durationUnits"  FontSize="20" VerticalAlignment="Center" Margin="0,0,0,0"/>
         </Grid>
-        <Grid x:Name="SortorderSetting" Margin="14,211,10,10" Grid.RowSpan="1">
+            <Grid x:Name="SortorderSetting" Margin="14,10,10,0" Grid.RowSpan="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
@@ -49,8 +50,21 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Column="0" Text="{Binding Path=LocalizedResources.SettingsSortOrderText, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}" Name="sortorderLabel"  FontSize="20" VerticalAlignment="Top" Margin="0,0,0,0"/>
-            <ListBox Grid.Column="1" Name="sortorderPicker" SelectionMode="Single" FontSize="20" VerticalAlignment="Top" Margin="20,0,0,0" />
+            <ListBox Grid.Column="1" Name="sortorderPicker" SelectionMode="Single" FontSize="20" HorizontalContentAlignment="Stretch" VerticalAlignment="Top" Margin="20,0,0,0" />
         </Grid>
+            <Grid x:Name="BlendmodeSetting" Margin="14,20,10,0" Grid.RowSpan="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Column="0" Text="{Binding Path=LocalizedResources.SettingsBlendModeText, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}" Name="blendmodeLabel"  FontSize="20" VerticalAlignment="Top" Margin="0,0,0,0"/>
+                <ListBox Grid.Column="1" Name="blendmodePicker" SelectionMode="Single" FontSize="20" VerticalAlignment="Top" Margin="16,0,0,0" />
+        </Grid>
+        </StackPanel>
     </Grid>
+    
 
 </phone:PhoneApplicationPage>

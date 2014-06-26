@@ -26,6 +26,12 @@ namespace pShow
             {4, AppResources.SettingsRandom}
         };
 
+        static private Dictionary<int, string> blendmodeList = new Dictionary<int, string>() 
+        { 
+            {0, AppResources.SettingsBlendModeNone},
+            {1, AppResources.SettingsBlendModeFading},
+        };
+
         /// <summary>
         /// The page constructor.
         /// </summary>
@@ -34,6 +40,7 @@ namespace pShow
             InitializeComponent();
             BuildLocalizedApplicationBar();
             sortorderPicker.ItemsSource = sortorderList.Values.ToList();
+            blendmodePicker.ItemsSource = blendmodeList.Values.ToList();
         }
 
         private void BuildLocalizedApplicationBar()
@@ -57,6 +64,7 @@ namespace pShow
             base.OnNavigatedTo(e);
             durationSetting.Text = App.userSettings["slideDuration"].ToString();
             sortorderPicker.SelectedIndex = (int)App.userSettings["sortOrder"];
+            blendmodePicker.SelectedIndex = (int)App.userSettings["blendMode"];
         }
 
         /// <summary>
@@ -71,6 +79,7 @@ namespace pShow
             {
                 App.userSettings["slideDuration"] = Int32.Parse(durationLine);
                 App.userSettings["sortOrder"] = sortorderPicker.SelectedIndex;
+                App.userSettings["blendMode"] = blendmodePicker.SelectedIndex;
                 MessageBox.Show(AppResources.SaveSuccess);
             }
             else

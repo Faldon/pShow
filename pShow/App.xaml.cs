@@ -35,12 +35,13 @@ namespace pShow
             userSettings = System.IO.IsolatedStorage.IsolatedStorageSettings.ApplicationSettings;
             if (userSettings.Count == 0)
             {
-                System.IO.TextReader tr = System.IO.File.OpenText("Resources/settings.txt");
-                var durationLine = tr.ReadLine();
-                userSettings.Add("slideDuration", Int32.Parse(durationLine.Split(new char[] { '=' })[1]));
-                var sortorderLine = tr.ReadLine();
-                userSettings.Add("sortOrder", Int32.Parse(sortorderLine.Split(new char[] { '=' })[1]));
-                tr.Close();
+                userSettings.Add("slideDuration", 5);
+                userSettings.Add("sortOrder", 0);
+                userSettings.Add("blendMode", 0);
+            }
+            if (userSettings.Count < 3)
+            {
+                userSettings.Add("blendMode", 0);
             }
 
             // Global handler for uncaught exceptions.
