@@ -60,7 +60,17 @@ namespace pShow
         {
             if (!slideShowThread.IsBusy)
             {
-                slideShowThread.RunWorkerAsync(albumPics);
+                switch ((int)App.userSettings["blendMode"])
+                {
+                    case 0:
+                        img.Opacity = 1;
+                        slideShowThread.RunWorkerAsync(albumPics);
+                        break;
+                    case 1:
+                        FadeIn.Begin();
+                        slideShowThread.RunWorkerAsync(albumPics);
+                        break;
+                }
             }
         }
 
@@ -158,7 +168,20 @@ namespace pShow
             if (!e.Cancelled)
             {
                 var nextPicture = (System.IO.Stream)e.Result;
-                bmp.SetSource(nextPicture);
+                switch ((int)App.userSettings["blendMode"]) 
+                {
+                    case 0:
+                        img.Opacity = 0;
+                        bmp.SetSource(nextPicture);
+                        break;
+                    case 1:
+                        FadeOut.Completed += (x, y) =>
+                        {
+                            bmp.SetSource(nextPicture);
+                        };
+                        FadeOut.Begin();
+                        break;
+                }
             }
             
         }

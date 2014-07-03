@@ -29,6 +29,9 @@
                 <Storyboard x:Name="FadeIn">
                     <DoubleAnimation Storyboard.TargetName="Image" Storyboard.TargetProperty="Opacity" From="0.0" To="1.0" Duration="0:0:1" />
                 </Storyboard>
+                <Storyboard x:Name="FadeOut">
+                    <DoubleAnimation Storyboard.TargetName="Image" Storyboard.TargetProperty="Opacity" From="1.0" To="0.0" Duration="0:0:1" />
+                </Storyboard>
             </Grid.Resources>
 
         </Grid>
