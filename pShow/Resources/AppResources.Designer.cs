@@ -171,6 +171,15 @@ namespace pShow.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Zooming.
+        /// </summary>
+        public static string SettingsBlendModeZooming {
+            get {
+                return ResourceManager.GetString("SettingsBlendModeZooming", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date, ascending.
         /// </summary>
         public static string SettingsDateAsc {

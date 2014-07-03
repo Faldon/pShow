@@ -39,7 +39,7 @@ namespace pShow
 
             img = new Image()
             {
-                Name="Image",
+                Name="SlideShowImage",
             };
             bmp = new BitmapImage()
             {
@@ -68,6 +68,11 @@ namespace pShow
                         break;
                     case 1:
                         FadeIn.Begin();
+                        slideShowThread.RunWorkerAsync(albumPics);
+                        break;
+                    case 2:
+                        ZoomInAnimation.To = ContentPanel.ActualHeight; 
+                        ZoomIn.Begin();
                         slideShowThread.RunWorkerAsync(albumPics);
                         break;
                 }
@@ -181,9 +186,12 @@ namespace pShow
                         };
                         FadeOut.Begin();
                         break;
+                    case 2:
+                        img.Height = 0;
+                        bmp.SetSource(nextPicture);
+                        break;
                 }
             }
-            
         }
         
         /// <summary>

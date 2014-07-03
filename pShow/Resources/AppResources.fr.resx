@@ -189,4 +189,7 @@
   <data name="SettingsBlendModeText" xml:space="preserve">
     <value>Mode de transition:</value>
   </data>
+  <data name="SettingsBlendModeZooming" xml:space="preserve">
+    <value>Zoom</value>
+  </data>
 </root>

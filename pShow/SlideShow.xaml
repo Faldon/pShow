@@ -27,10 +27,13 @@
               VirtualizingStackPanel.VirtualizationMode="Recycling">
             <Grid.Resources>
                 <Storyboard x:Name="FadeIn">
-                    <DoubleAnimation Storyboard.TargetName="Image" Storyboard.TargetProperty="Opacity" From="0.0" To="1.0" Duration="0:0:1" />
+                    <DoubleAnimation Storyboard.TargetName="SlideShowImage" Storyboard.TargetProperty="Opacity" From="0.0" To="1.0" Duration="0:0:1" />
                 </Storyboard>
                 <Storyboard x:Name="FadeOut">
-                    <DoubleAnimation Storyboard.TargetName="Image" Storyboard.TargetProperty="Opacity" From="1.0" To="0.0" Duration="0:0:1" />
+                    <DoubleAnimation Storyboard.TargetName="SlideShowImage" Storyboard.TargetProperty="Opacity" From="1.0" To="0.0" Duration="0:0:1" />
+                </Storyboard>
+                <Storyboard x:Name="ZoomIn">
+                    <DoubleAnimation x:Name="ZoomInAnimation" Storyboard.TargetName="SlideShowImage" Storyboard.TargetProperty="Height" From="0" Duration="0:0:1" SpeedRatio="1.5" />
                 </Storyboard>
             </Grid.Resources>
 

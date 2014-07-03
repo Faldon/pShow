@@ -30,6 +30,7 @@ namespace pShow
         { 
             {0, AppResources.SettingsBlendModeNone},
             {1, AppResources.SettingsBlendModeFading},
+            {2, AppResources.SettingsBlendModeZooming},
         };
 
         /// <summary>
