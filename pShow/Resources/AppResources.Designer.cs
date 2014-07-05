@@ -162,6 +162,15 @@ namespace pShow.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Swiping.
+        /// </summary>
+        public static string SettingsBlendModeSwiping {
+            get {
+                return ResourceManager.GetString("SettingsBlendModeSwiping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Picture transition mode:.
         /// </summary>
         public static string SettingsBlendModeText {

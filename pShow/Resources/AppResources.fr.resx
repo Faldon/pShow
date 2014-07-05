@@ -192,4 +192,7 @@
   <data name="SettingsBlendModeZooming" xml:space="preserve">
     <value>Zoom</value>
   </data>
+  <data name="SettingsBlendModeSwiping" xml:space="preserve">
+    <value>Balayer</value>
+  </data>
 </root>

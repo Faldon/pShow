@@ -39,7 +39,8 @@ namespace pShow
 
             img = new Image()
             {
-                Name="SlideShowImage",
+                Name = "SlideShowImage",
+                RenderTransform = SwipeTransform,
             };
             bmp = new BitmapImage()
             {
@@ -73,6 +74,11 @@ namespace pShow
                     case 2:
                         ZoomInAnimation.To = ContentPanel.ActualHeight; 
                         ZoomIn.Begin();
+                        slideShowThread.RunWorkerAsync(albumPics);
+                        break;
+                    case 3:
+                        SwipeInAnimation.From = -ContentPanel.ActualWidth;
+                        SwipeIn.Begin();
                         slideShowThread.RunWorkerAsync(albumPics);
                         break;
                 }
@@ -186,8 +192,7 @@ namespace pShow
                         };
                         FadeOut.Begin();
                         break;
-                    case 2:
-                        img.Height = 0;
+                    default:
                         bmp.SetSource(nextPicture);
                         break;
                 }

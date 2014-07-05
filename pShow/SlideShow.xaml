@@ -35,6 +35,10 @@
                 <Storyboard x:Name="ZoomIn">
                     <DoubleAnimation x:Name="ZoomInAnimation" Storyboard.TargetName="SlideShowImage" Storyboard.TargetProperty="Height" From="0" Duration="0:0:1" SpeedRatio="1.5" />
                 </Storyboard>
+                <Storyboard x:Name="SwipeIn">
+                    <DoubleAnimation x:Name="SwipeInAnimation" Storyboard.TargetName="SwipeTransform" Storyboard.TargetProperty="(TranslateTransform.X)" To="0" Duration="0:0:1" SpeedRatio="2.5" />
+                </Storyboard>
+                <TranslateTransform x:Name="SwipeTransform" X="0" />
             </Grid.Resources>
 
         </Grid>
