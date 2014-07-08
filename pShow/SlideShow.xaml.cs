@@ -47,8 +47,8 @@ namespace pShow
                 CreateOptions = BitmapCreateOptions.IgnoreImageCache,
             };
             img.Source = bmp;
-            img.LayoutUpdated += startImageLoading;
             ContentPanel.Children.Add(img);
+            img.LayoutUpdated += startImageLoading;
         }
 
         /// <summary>
@@ -72,11 +72,12 @@ namespace pShow
                         slideShowThread.RunWorkerAsync(albumPics);
                         break;
                     case 2:
-                        ZoomInAnimation.To = ContentPanel.ActualHeight; 
+                        ZoomInAnimation.To = ContentPanel.ActualHeight;
                         ZoomIn.Begin();
                         slideShowThread.RunWorkerAsync(albumPics);
                         break;
                     case 3:
+                        img.Opacity = 1;
                         SwipeInAnimation.From = -ContentPanel.ActualWidth;
                         SwipeIn.Begin();
                         slideShowThread.RunWorkerAsync(albumPics);
@@ -192,7 +193,12 @@ namespace pShow
                         };
                         FadeOut.Begin();
                         break;
-                    default:
+                    case 2:
+                        img.Height = 0;
+                        bmp.SetSource(nextPicture);
+                        break;
+                    case 3:
+                        img.Opacity = 0;
                         bmp.SetSource(nextPicture);
                         break;
                 }
