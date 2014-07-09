@@ -180,4 +180,19 @@
   <data name="SettingsDisplayTimeUnitsText" xml:space="preserve">
     <value>secondes</value>
   </data>
+  <data name="SettingsBlendModeFading" xml:space="preserve">
+    <value>Décoloration</value>
+  </data>
+  <data name="SettingsBlendModeNone" xml:space="preserve">
+    <value>Nul</value>
+  </data>
+  <data name="SettingsBlendModeText" xml:space="preserve">
+    <value>Mode de transition:</value>
+  </data>
+  <data name="SettingsBlendModeZooming" xml:space="preserve">
+    <value>Zoom</value>
+  </data>
+  <data name="SettingsBlendModeSwiping" xml:space="preserve">
+    <value>Balayer</value>
+  </data>
 </root>

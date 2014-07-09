@@ -36,15 +36,19 @@ namespace pShow
             slideShowThread.RunWorkerCompleted += updateUI;
             slideShowThread.WorkerSupportsCancellation = true;
             InitializeComponent();
-            
-            img = new Image();
+
+            img = new Image()
+            {
+                Name = "SlideShowImage",
+                RenderTransform = SwipeTransform,
+            };
             bmp = new BitmapImage()
             {
                 CreateOptions = BitmapCreateOptions.IgnoreImageCache,
             };
             img.Source = bmp;
-            img.LayoutUpdated += startImageLoading;
             ContentPanel.Children.Add(img);
+            img.LayoutUpdated += startImageLoading;
         }
 
         /// <summary>
@@ -57,7 +61,28 @@ namespace pShow
         {
             if (!slideShowThread.IsBusy)
             {
-                slideShowThread.RunWorkerAsync(albumPics);
+                switch ((int)App.userSettings["blendMode"])
+                {
+                    case 0:
+                        img.Opacity = 1;
+                        slideShowThread.RunWorkerAsync(albumPics);
+                        break;
+                    case 1:
+                        FadeIn.Begin();
+                        slideShowThread.RunWorkerAsync(albumPics);
+                        break;
+                    case 2:
+                        ZoomInAnimation.To = ContentPanel.ActualHeight;
+                        ZoomIn.Begin();
+                        slideShowThread.RunWorkerAsync(albumPics);
+                        break;
+                    case 3:
+                        img.Opacity = 1;
+                        SwipeInAnimation.From = -ContentPanel.ActualWidth;
+                        SwipeIn.Begin();
+                        slideShowThread.RunWorkerAsync(albumPics);
+                        break;
+                }
             }
         }
 
@@ -155,9 +180,29 @@ namespace pShow
             if (!e.Cancelled)
             {
                 var nextPicture = (System.IO.Stream)e.Result;
-                bmp.SetSource(nextPicture);
+                switch ((int)App.userSettings["blendMode"]) 
+                {
+                    case 0:
+                        img.Opacity = 0;
+                        bmp.SetSource(nextPicture);
+                        break;
+                    case 1:
+                        FadeOut.Completed += (x, y) =>
+                        {
+                            bmp.SetSource(nextPicture);
+                        };
+                        FadeOut.Begin();
+                        break;
+                    case 2:
+                        img.Height = 0;
+                        bmp.SetSource(nextPicture);
+                        break;
+                    case 3:
+                        img.Opacity = 0;
+                        bmp.SetSource(nextPicture);
+                        break;
+                }
             }
-            
         }
         
         /// <summary>
