@@ -17,6 +17,7 @@ Current features are:
 <ul>
 <li>Adjustable display duration for each picture</li>
 <li>Different sorting methods for the album picture position in the slideshow</li>
+<li>Several selectable picture transitions</li>
 <li>Works in landscape and portrait mode</li>
 <li>Does not dim screen during slideshow</li>
 <li>Ad-free</li>
