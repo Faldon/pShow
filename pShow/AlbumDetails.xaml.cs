@@ -66,7 +66,7 @@ namespace pShow
         /// </summary>
         private void startSlideShow(object sender, EventArgs e)
         {
-            NavigationService.Navigate(new Uri("/SlideShow.xaml?album=" + albumName.Text, UriKind.Relative));
+            NavigationService.Navigate(new Uri("/SlideShow.xaml?album=" + HttpUtility.UrlEncode(albumName.Text), UriKind.Relative));
         }
     }
 }

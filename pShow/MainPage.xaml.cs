@@ -66,7 +66,7 @@ namespace pShow
         private void openAlbum(object sender, RoutedEventArgs e)
         {
             Button b = (Button)sender;
-            NavigationService.Navigate(new Uri("/AlbumDetails.xaml?albumChoice=" + b.Tag.ToString(), UriKind.Relative));
+            NavigationService.Navigate(new Uri("/AlbumDetails.xaml?albumChoice=" + HttpUtility.UrlDecode(b.Tag.ToString()), UriKind.Relative));
         }
 
         /// <summary>
