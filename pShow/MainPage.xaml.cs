@@ -14,6 +14,7 @@ using System.Collections.ObjectModel;
 using pShow.ViewModel;
 using pShow.Model;
 using pShow.Resources;
+using Windows.System;
 
 namespace pShow
 {
@@ -49,13 +50,20 @@ namespace pShow
         private void BuildLocalizedApplicationBar()
         {
             // Set the page's ApplicationBar to a new instance of ApplicationBar.
-            ApplicationBar = new ApplicationBar();
-            ApplicationBar.Opacity = 0.5;
+            ApplicationBar = new ApplicationBar() {
+                Opacity = 0.5,
+                IsMenuEnabled = true
+            };
 
             ApplicationBarIconButton settingsButton = new ApplicationBarIconButton(new Uri("/Resources/feature.settings.png", UriKind.Relative));
             settingsButton.Text = AppResources.SettingsTitle;
             settingsButton.Click += openSettings;
             ApplicationBar.Buttons.Add(settingsButton);
+
+            ApplicationBarMenuItem privacyPolicyMenuItem = new ApplicationBarMenuItem(AppResources.PrivacyPolicyMenuEntry);
+            privacyPolicyMenuItem.Click += async (s, e) => { await Launcher.LaunchUriAsync(new Uri("https://github.com/Faldon/pShow/blob/master/PRIVACY%20POLICY.md", UriKind.Absolute)); };
+            ApplicationBar.MenuItems.Add(privacyPolicyMenuItem);
+
         }
 
         /// <summary>

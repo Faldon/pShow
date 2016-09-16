@@ -195,4 +195,7 @@
   <data name="SettingsBlendModeSwiping" xml:space="preserve">
     <value>Swiping</value>
   </data>
+  <data name="PrivacyPolicyMenuEntry" xml:space="preserve">
+    <value>privacy policy</value>
+  </data>
 </root>

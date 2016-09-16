@@ -195,4 +195,7 @@
   <data name="SettingsBlendModeSwiping" xml:space="preserve">
     <value>Balayer</value>
   </data>
+  <data name="PrivacyPolicyMenuEntry" xml:space="preserve">
+    <value>Politique de confidentialité</value>
+  </data>
 </root>
